@@ -1,23 +1,26 @@
-// importing express
+/*====================================IMPORTING=============================*/
+// importing packages
 const express = require('express')
+const bodyParser = require('body-parser')
 
-// importing authRouters
+// importing custom authRouters
 const authRoute = require('./routes/authRouter')
 const productRoute = require('./routes/productRouter')
 
 
-// app defining
+/*====================================SYSTEM INTEGRATION=============================*/
 const app = express()
-
-// port defining custom and production
 const PORT = process.env.PORT || 5000
 
-// using routes
-app.get('/', (req, res) => res.send('Home'))
+/*====================================USE PACKAGES===================================*/
+app.use(bodyParser.json())
+
+/*====================================USE CUSTOM ROUTERS=============================*/
+app.get('/', (req, res) => res.send('Home')) // home
 app.use('/api', authRoute);
 app.use('/api', productRoute);
 
-// app running
+/*====================================RUN SERVER===================================*/
 app.listen(PORT, () => console.log(`server is running at http://localhost:${PORT}`))
 // app.listen(PORT, () => {console.log('server is running on ', {PORT})})
 
