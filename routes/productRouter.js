@@ -9,10 +9,11 @@ const productController = require('../controllers/productController')
 
 
 // routes
-router.post('/product/create', productController.productCreate)
-router.get('/products', productController.products)
-router.get('/product/:id', productController.productDetails)
+router.post('/products', productController.product)
+router.get('/products', productController.product)
+router.get('/product/:id', productController.product)
 
 // exporting routes
 module.exports = router
+
 
