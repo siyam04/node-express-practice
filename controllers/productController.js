@@ -21,6 +21,7 @@ module.exports = {
 
         /* GET */
         if (req.method === "GET"){
+
             /* single product */
             if (req.params.id){
                 let id = req.params.id

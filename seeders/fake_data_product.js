@@ -1,0 +1,25 @@
+'use strict';
+
+const faker = require('faker');
+
+const products = [...Array(5)].map((product) => (
+    {
+      name: faker.commerce.productName(),
+      category: faker.commerce.department(),
+      price: faker.commerce.price(),
+      quantity: faker.random.number(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+))
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('Products', products, {});
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete('Products', null, {});
+  }
+};
+
+
