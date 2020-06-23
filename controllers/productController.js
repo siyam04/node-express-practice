@@ -1,41 +1,36 @@
-module.exports = {
+// importing custom Models
+const Products = require('./../models').Products
 
-    // product create, get, update (POST, GET)
+
+// Controllers
+module.exports = {
     product: (req, res) => {
-        /* POST */
+        // create product (POST)
         if (req.method === "POST") {
             console.log({req})
 
-            let name = req.body.name
-            let category = req.body.category
-            let price = req.body.price
-            let quantity = req.body.quantity
+            let {name, category, price, quantity} = req.body
+            let product = Products.create({name, category, price, quantity}).then(p => console.log({p}))
 
-            res.status(201).json({"message": "created", name, category, price, quantity})
+            res.status(201).json({
+                "message": "created",
+                "data": product
+            })
         }
 
-        /* GET */
+        // get single product/all product (GET)
         if (req.method === "GET"){
-
-            /* if ID */
+            // id ID
             if (req.params.id){
                 let id = req.params.id
-                res.status(200).json({
-                    "message": `product details ${id}`,
-                })
+                Products.findAll({where: {id: id}}).then(data => {return res.status(200).json({data})})
             }
 
-            /* if NOT ID */
-            else {
-                let name = req.body.name
-                let category = req.body.category
-                let price = req.body.price
-                let quantity = req.body.quantity
-
-                res.status(200).json({"message": "found", name, category, price, quantity})
-            }
-        }// main if
+            // if NOT ID
+            else {Products.findAll({}).then(data => {return res.status(200).json({data})})}
+        }
 
     },// main
-
 }
+
+
