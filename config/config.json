@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "product_db",
+    "database": "cart_demo",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": 0
