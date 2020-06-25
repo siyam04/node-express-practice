@@ -80,15 +80,9 @@ module.exports = {
                         return res.status(201).json({
                             data: product_obj_arg_2
                         })
-                    }).catch(error_inner_then => {
-                    return res.status(204).json({
-                        error_inner_then
-                    })
+                    }).catch(error_inner_then => {return res.status(204).json({error_inner_then})
                 })
-            }).catch(error_outer_then => {
-                return res.status(204).json({
-                    error_outer_then
-                })
+            }).catch(error_outer_then => {return res.status(204).json({error_outer_then})
         })
 
 

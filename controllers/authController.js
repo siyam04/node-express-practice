@@ -1,5 +1,6 @@
 /* importing packages */
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 /* importing custom Models */
 const User = require('./../models').User
@@ -44,17 +45,21 @@ module.exports = {
 
 
     /* router.post('/login', authController.login) (POST) */
-    // login: (req, res) => {
-    //     let username = req.body.username
-    //     let password = req.body.password
-    //
-    //     if (username ===  this.register.username && password === this.register.password){
-    //         res.status(200).json({"message": `login successful for ${username}`})
-    //     }
-    //     else {
-    //         res.status(204).json({"message": `no content for ${username}`})
-    //     }
-    // },
+    login: (req, res) => {
+        console.log(req.headers)
+        console.log(req.headers['authorization'])
+
+        // JWT
+        const SECRET_KEY = 'RANDOM_SECRET_KEY'
+        const accessToken = jwt.sign(req.body, SECRET_KEY)
+        jwt.verify(accessToken, SECRET_KEY, (err, result) => {
+            console.log(result)
+        })
+
+        return res.status(201).json({
+            accessToken: accessToken
+        })
+    },
 
     /* router.post('/logout', authController.logout) (POST) */
     // logout: (req, res) => {
