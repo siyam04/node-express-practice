@@ -50,19 +50,48 @@ module.exports = {
     },
 
 
+    /* system-1 */
+    // /* router.put('/product/:id', productController.updateProduct) */
+    // updateProduct: async (req, res) => {
+    //     let id = req.params.id
+    //     let {name, category, price, quantity} = req.body
+    //
+    //     let product = await Products.findOne({where: {id: id}})
+    //
+    //     product.update({name, category, price, quantity})
+    //         .then(data => {
+    //             return res.status(201).json({
+    //                 data
+    //             })
+    //         })
+    // },
+
+
+    /* system-2 */
     /* router.put('/product/:id', productController.updateProduct) */
-    updateProduct: async (req, res) => {
+    updateProduct: (req, res) => {
         let id = req.params.id
         let {name, category, price, quantity} = req.body
 
-        let product = await Products.findOne({where: {id: id}})
-
-        product.update({name, category, price, quantity})
-            .then(data => {
-                return res.status(201).json({
-                    data
+        Products.findOne({where: {id: id}})
+            .then(product_obj_arg => {
+                product_obj_arg.update({name, category, price, quantity})
+                    .then(product_obj_arg_2 => {
+                        return res.status(201).json({
+                            data: product_obj_arg_2
+                        })
+                    }).catch(error_inner_then => {
+                    return res.status(204).json({
+                        error_inner_then
+                    })
                 })
-            })
+            }).catch(error_outer_then => {
+                return res.status(204).json({
+                    error_outer_then
+                })
+        })
+
+
     },
 
 
