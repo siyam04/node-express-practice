@@ -10,64 +10,132 @@ const User = require('./../models').User
 module.exports = {
 
     /* router.post('/register', authController.register) (POST) */
-    register : async (req, res) => {
+    register : (req, res) => {
         // api data
         let {username, password, email, first_name, last_name} = req.body
 
-        // Synchronous Hashing
+        // synchronous hashing
         let hash = bcrypt.hashSync(password, 10);
 
-        // object creation
-        let user = await User.create({username, password:hash, email, first_name, last_name})
+        // object creation if username, email not exists
+        User.findOne({where: {username: username}})
+            .then(user => {
+                if (! user){
+                    User.findOne({where: {email: email}})
+                        .then(user => {
+                            if (! user) {
+                                User.create({username, password:hash, email, first_name, last_name})
+                                    .then(user => {
+                                        return res.status(201).json({
+                                            "data": {
+                                                "message": "user created",
+                                                "type": "ok",
+                                                "user": user
+                                            }
+                                        })
+                                    }).catch(error => {return res.status(400).json({error})})
+                            }// if.
+                            else {
+                                return res.status(200).json({
+                                    "data": {
+                                        "message": "email already exists",
+                                        "type": "ok",
+                                    }
+                                })
+                            }// else
+                        }).catch(error => {return res.status(400).json({error})})
+                }// if
+                else {
+                    return res.status(200).json({
+                        "data": {
+                            "message": "username already exists",
+                            "type": "ok",
+                        }
+                    })
+                }// else
 
-        // Synchronous Password & Hash checking
-        if(bcrypt.compareSync(password, hash)) {
-            console.log(`Matched! PASSWORD: ${password} HASH: ${hash}`)
-        } else {
-            console.log("Not Matched")
-        }
-
-        // return response
-        res.status(201).json({
-            "data": user
+            }).catch(error => {
+            return res.status(400).json({
+                "data": {
+                    "message": "something went wrong",
+                    "type": "error",
+                    "error": error
+                }
+            })
         })
 
+        // synchronous password & hash checking
+        // if(bcrypt.compareSync(password, hash)) {
+        //     console.log(`Matched! PASSWORD: ${password} HASH: ${hash}`)
+        // } else {
+        //     console.log("Not Matched")
+        // }
 
-        // /* Asynchronous Hashing */
+        // /* asynchronous hashing */
         // bcrypt.hash(password, 10, function(err, hash) {});
         //
-        // // Asynchronous Password & Hash checking
+        // // asynchronous password & hash checking
         // bcrypt.compare(password, hash, function(err, result) {
         //     console.log(result)
         // });
 
-    },
+    },// register
 
 
     /* router.post('/login', authController.login) (POST) */
     login: (req, res) => {
-        console.log(req.headers)
-        console.log(req.headers['authorization'])
+        let {email, password} = req.body
 
-        // JWT
-        const SECRET_KEY = 'RANDOM_SECRET_KEY'
-        const accessToken = jwt.sign(req.body, SECRET_KEY)
-        jwt.verify(accessToken, SECRET_KEY, (err, result) => {
-            console.log(result)
-        })
+        User.findOne({where: {email: email}})
+            .then(user => {
+                if (user) {
+                    if (bcrypt.compareSync(password, user.password)) {
+                        const SECRET_KEY = 'RANDOM_SECRET_KEY'
+                        const token = jwt.sign(user.dataValues, SECRET_KEY)
 
-        return res.status(201).json({
-            accessToken: accessToken
-        })
-    },
+                        return res.status(200).json({
+                            "data": {
+                                "message": "login success",
+                                "type": "ok",
+                                "user": user,
+                                "token": "Bearer " + token
+                            }
+                        })
+                    }// if
+
+                    else {
+                        return res.status(200).json({
+                            "data": {
+                                "message": "password doesn't match",
+                                "type": "ok",
+                            }
+                        })
+                    }// else
+
+                }// if
+
+                else {
+                    return res.status(200).json({
+                        "data": {
+                            "message": "email not matched",
+                            "type": "ok",
+                        }
+                    })
+                }// else
+
+            }).catch(error => {return res.status(400).json({"error": error})})
+
+    },// login
+
 
     /* router.post('/logout', authController.logout) (POST) */
-    // logout: (req, res) => {
-    //     let username = req.body.username
-    //     let Token = req.body.Token
-    //
-    //     res.status(200).json({"message": `${Token} matched! logout success for ${username}`})
-    // },
+    logout: (req, res) => {
+        let username = req.body.username
+        let Token = req.body.Token
+
+        res.status(200).json({"message": `${Token} matched! logout success for ${username}`})
+
+    },// logout
 
 
 }// main
