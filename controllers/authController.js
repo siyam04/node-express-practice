@@ -10,7 +10,7 @@ const User = require('./../models').User
 module.exports = {
 
     /* router.post('/register', authController.register) (POST) */
-    register : (req, res) => {
+    register: (req, res) => {
         // api data
         let {username, password, email, first_name, last_name} = req.body
 
@@ -20,11 +20,11 @@ module.exports = {
         // object creation if username, email not exists
         User.findOne({where: {username: username}})
             .then(user => {
-                if (! user){
+                if (!user) {
                     User.findOne({where: {email: email}})
                         .then(user => {
-                            if (! user) {
-                                User.create({username, password:hash, email, first_name, last_name})
+                            if (!user) {
+                                User.create({username, password: hash, email, first_name, last_name})
                                     .then(user => {
                                         return res.status(201).json({
                                             "data": {
@@ -33,7 +33,9 @@ module.exports = {
                                                 "user": user
                                             }
                                         })
-                                    }).catch(error => {return res.status(400).json({error})})
+                                    }).catch(error => {
+                                    return res.status(400).json({error})
+                                })
                             }// if.
                             else {
                                 return res.status(200).json({
@@ -43,7 +45,9 @@ module.exports = {
                                     }
                                 })
                             }// else
-                        }).catch(error => {return res.status(400).json({error})})
+                        }).catch(error => {
+                        return res.status(400).json({error})
+                    })
                 }// if
                 else {
                     return res.status(200).json({
@@ -123,17 +127,24 @@ module.exports = {
                     })
                 }// else
 
-            }).catch(error => {return res.status(400).json({"error": error})})
+            }).catch(error => {
+            return res.status(400).json({"error": error})
+        })
 
     },// login
 
 
     /* router.post('/logout', authController.logout) (POST) */
     logout: (req, res) => {
-        let username = req.body.username
-        let Token = req.body.Token
+        let token = req.headers['authorization']
 
-        res.status(200).json({"message": `${Token} matched! logout success for ${username}`})
+        return res.status(200).json({
+            "data": {
+                "message": "logout success",
+                "type": "ok",
+                "token": "Bearer " + token
+            }
+        })
 
     },// logout
 

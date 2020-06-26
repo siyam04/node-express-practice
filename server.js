@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 // importing custom authRouters
 const authRoute = require('./routes/authRouter')
 const productRoute = require('./routes/productRouter')
+const cartRoute = require('./routes/cartRouter')
 
 
 /*====================================SYSTEM INTEGRATION=============================*/
@@ -19,6 +20,7 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => res.send('Home')) // home
 app.use('/api', authRoute);
 app.use('/api', productRoute);
+app.use('/api', cartRoute);
 
 /*====================================RUN SERVER===================================*/
 app.listen(PORT, () => console.log(`server is running at http://localhost:${PORT}`))

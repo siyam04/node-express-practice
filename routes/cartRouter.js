@@ -5,20 +5,20 @@ const express = require('express')
 const router = express.Router()
 
 /* importing controllers */
-// const productController = require('../controllers/productController')
+const cartController = require('../controllers/cartController')
 
 
 /* routes */
-router.post('/cart', cartController.cart)
+router.post('/cart', cartController.addToCart)
+router.get('/carts', cartController.cartGet)
+router.get('/cart/:id', cartController.cartGet)
+router.put('/cart/:id', cartController.cartUpdate)
+router.delete('/cart/:id', cartController.cartDelete)
 
-/* routes */
-// router.post('/product', productController.product)
-// router.get('/product', productController.product)
-// router.get('/product/:id', productController.product)
-// router.put('/product/:id', productController.updateProduct)
-// router.delete('/product/:id', productController.deleteProduct)
 
 /* exporting routes */
 module.exports = router
+
+
 
 

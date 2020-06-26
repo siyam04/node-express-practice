@@ -85,7 +85,6 @@ module.exports = {
             }).catch(error_outer_then => {return res.status(204).json({error_outer_then})
         })
 
-
     },
 
 
