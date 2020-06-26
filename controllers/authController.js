@@ -144,20 +144,10 @@ module.exports = {
     logout: (req, res) => {
         let token = req.headers['authorization']
 
+        // redis
         jwtr.destroy(token)
-            .then(t => {
-                return res.status(200).json({
-                    "message": t
-                })
-            })
 
-        // return res.status(200).json({
-        //     "data": {
-        //         "message": "logout success",
-        //         "type": "ok",
-        //         "token": "Bearer " + token
-        //     }
-        // })
+        return res.status(200).json({"message": "logout success"})
 
     },// logout
 
