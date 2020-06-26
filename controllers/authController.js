@@ -2,6 +2,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// redis
+var redis = require('redis');
+var JWTR =  require('jwt-redis').default;
+var redisClient = redis.createClient();
+var jwtr = new JWTR(redisClient);
+
 /* importing custom Models */
 const User = require('./../models').User
 
@@ -138,13 +144,20 @@ module.exports = {
     logout: (req, res) => {
         let token = req.headers['authorization']
 
-        return res.status(200).json({
-            "data": {
-                "message": "logout success",
-                "type": "ok",
-                "token": "Bearer " + token
-            }
-        })
+        jwtr.destroy(token)
+            .then(t => {
+                return res.status(200).json({
+                    "message": t
+                })
+            })
+
+        // return res.status(200).json({
+        //     "data": {
+        //         "message": "logout success",
+        //         "type": "ok",
+        //         "token": "Bearer " + token
+        //     }
+        // })
 
     },// logout
 
