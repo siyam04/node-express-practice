@@ -6,6 +6,7 @@ const router = express.Router()
 
 /* importing controllers */
 const cartController = require('../controllers/cartController')
+const auth_middleware = require('../middlewares/auth')
 
 
 /* routes */
