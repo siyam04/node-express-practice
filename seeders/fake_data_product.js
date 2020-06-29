@@ -2,7 +2,7 @@
 
 const faker = require('faker');
 
-const products = [...Array(20)].map((product) => (
+const products = [...Array(5)].map((product) => (
     {
       name: faker.commerce.productName(),
       category: faker.commerce.department(),

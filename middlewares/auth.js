@@ -10,7 +10,7 @@ module.exports = {
             let token = header.split(' ')
             const SECRET_KEY = 'RANDOM_SECRET_KEY'
             jwt.verify(token[1], SECRET_KEY, function (err, decoded) {
-                console.log('JWT PAYLOADS: ', decoded)
+                // console.log('JWT PAYLOADS: ', decoded)
                 if (!err) {
                     req.user = decoded
                     next()

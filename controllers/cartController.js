@@ -46,12 +46,48 @@ module.exports = {
 
 
     addToCartArray: (req, res) => {
-        let {products, total} = req.body
-        // console.log(req.body)
-        console.log(products)
-        console.log(total)
+        let {product_id, name, quantity, price} = req.body
+        let {id} = req.user
+        let user_id = id
 
-        return res.status(200).json({"message": "ok"})
+        // console.log({product_id, name, quantity, price})
+        // console.log({user_id})
+
+        let carts = {}
+        let products = []
+
+        products.push({product_id, name, quantity, price})
+
+        // prototype
+        carts.products = products
+        console.log({carts})
+
+        // obj = Str (save DB)
+        const carts_str = JSON.stringify(carts);
+        console.log(carts_str)
+
+        Cart.create({user_id: user_id, product: carts_str})
+            .then(cart => {
+                return res.status(201).json({
+                    "message": "created",
+                    "cart": cart
+                })
+            })
+
+        // const parseData = JSON.parse(bookJSON);
+        // console.log(parseData.author)
+
+        // return res.status(200).json({
+        //     carts
+        // })
+
+        // {
+        //     "products":[
+        //     {"name":"hand glops","quantity":"1","price":"20"},
+        //     {"name":"mask","quantity":"3","price":"5"}
+        // ],
+        //     "total":35
+        // }
 
     },// addToCartArray
 
