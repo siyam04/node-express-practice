@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: null
       },
-      product_id: {
+      product: {
         type: Sequelize.STRING
       },
       createdAt: {

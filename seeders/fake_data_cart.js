@@ -5,7 +5,7 @@ const faker = require('faker');
 const carts = [...Array(20)].map((cart) => (
     {
         user_id: faker.random.number(),
-        product_id: faker.random.word(),
+        product: faker.random.word(),
         createdAt: new Date(),
         updatedAt: new Date()
     }

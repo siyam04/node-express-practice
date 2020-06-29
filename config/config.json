@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "very_strong_password",
     "database": "cart_demo",
     "host": "127.0.0.1",
     "dialect": "mysql",

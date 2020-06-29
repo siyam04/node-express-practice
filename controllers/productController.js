@@ -103,19 +103,31 @@ module.exports = {
 
 
     /* router.delete('/product/:id', productController.deleteProduct) */
+    // deleteProduct: (req, res) => {
+    //     let id = req.params.id
+    //     Product.destroy({
+    //         where: {
+    //             id: id
+    //         }
+    //     })
+    //         .then(products => {
+    //             return res.status(200).json({
+    //                 id
+    //             })
+    //         })
+    // }
+
     deleteProduct: (req, res) => {
-        let id = req.params.id
-        Product.destroy({
-            where: {
-                id: id
-            }
-        })
-            .then(products => {
+        const id = req.params.id
+
+        Products.destroy({where: {id: id}})
+            .then(product => {
                 return res.status(200).json({
-                    id
+                    "message": `${id} deleted`
                 })
-            })
-    }
+            }).catch(error => {return res.status(400).json({"error": error})
+        })
+    }// deleteProduct
 }
 
 

@@ -101,6 +101,7 @@ module.exports = {
                 if (user) {
                     if (bcrypt.compareSync(password, user.password)) {
                         const SECRET_KEY = 'RANDOM_SECRET_KEY'
+                        // const token = jwt.sign(user.dataValues, SECRET_KEY, { expiresIn: '10s' })
                         const token = jwt.sign(user.dataValues, SECRET_KEY)
 
                         return res.status(200).json({

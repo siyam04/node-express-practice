@@ -45,6 +45,17 @@ module.exports = {
     },// addToCart
 
 
+    addToCartArray: (req, res) => {
+        let {products, total} = req.body
+        // console.log(req.body)
+        console.log(products)
+        console.log(total)
+
+        return res.status(200).json({"message": "ok"})
+
+    },// addToCartArray
+
+
     /*
     router.get('/cart/:id', cartController.cartGet)
     router.get('/cart', cartController.cartGet)
