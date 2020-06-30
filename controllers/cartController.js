@@ -15,7 +15,28 @@ module.exports = {
             .then(cart => {
                 if (cart) {
                     const cart_object = JSON.parse(cart.product)
-                    cart_object.products.push({product_id, name, quantity, price})
+                    let products = cart_object.products
+                    // console.log({products})
+
+                    for (i=0; i<products.length; i++) {
+                        if (products[i].product_id === product_id) {
+                            // if (quantity < 1) {
+                            //     // products.splice(i, 1)
+                            //     products.pop(products.splice(i, 1))
+                            //     console.log({products})
+                            // }
+                            products[i].name = name
+                            products[i].quantity = quantity
+                            products[i].price = price
+                        }// if
+                    }// for
+
+                    const found = products.some(el => el.product_id === product_id)
+                    if (!found) products.push({product_id, name, quantity, price})
+
+                    // products.includes()
+
+                    // cart_object.products.push({product_id, name, quantity, price})
 
                     let cart_string = JSON.stringify(cart_object)
 
@@ -31,8 +52,10 @@ module.exports = {
                 else {
                     let carts = {}
                     let products = []
+
                     products.push({product_id, name, quantity, price})
                     carts.products = products
+
                     let cart_str_obj = JSON.stringify(carts)
 
                     Cart.create({user_id: user_id, product: cart_str_obj})
