@@ -20,11 +20,17 @@ module.exports = {
 
                     for (i=0; i<products.length; i++) {
                         if (products[i].product_id === product_id) {
-                            // if (quantity < 1) {
-                            //     // products.splice(i, 1)
-                            //     products.pop(products.splice(i, 1))
-                            //     console.log({products})
-                            // }
+                            if (quantity < 1) {
+                                console.log('24', quantity)
+
+                                // products = products.filter(item => item.products[i].product_id !== product_id)
+                                console.log('27', {products})
+
+                                products.splice(i, 1)
+                                console.log('30', {products})
+
+                                return res.status(200).json({"message": "ok"})
+                            }
                             products[i].name = name
                             products[i].quantity = quantity
                             products[i].price = price

@@ -11,7 +11,7 @@ const auth_middleware = require('../middlewares/auth')
 
 /* routes */
 router.post('/cart', auth_middleware.Auth, cartController.addToCart)
-router.get('/carts', auth_middleware.Auth, cartController.cartGet)
+router.get('/cart', auth_middleware.Auth, cartController.cartGet)
 router.get('/cart/:id', auth_middleware.Auth, cartController.cartGet)
 router.delete('/cart/:id', auth_middleware.Auth, cartController.cartDelete)
 
