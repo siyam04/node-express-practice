@@ -16,20 +16,12 @@ module.exports = {
                 if (cart) {
                     const cart_object = JSON.parse(cart.product)
                     let products = cart_object.products
-                    // console.log({products})
 
-                    for (i=0; i<products.length; i++) {
+                    for (i = 0; i < products.length; i++) {
                         if (products[i].product_id === product_id) {
                             if (quantity < 1) {
-                                console.log('24', quantity)
-
-                                // products = products.filter(item => item.products[i].product_id !== product_id)
-                                console.log('27', {products})
-
                                 products.splice(i, 1)
-                                console.log('30', {products})
-
-                                return res.status(200).json({"message": "ok"})
+                                return res.status(200).json({"message": "quantity is: 0"})
                             }
                             products[i].name = name
                             products[i].quantity = quantity
@@ -40,10 +32,6 @@ module.exports = {
                     const found = products.some(el => el.product_id === product_id)
                     if (!found) products.push({product_id, name, quantity, price})
 
-                    // products.includes()
-
-                    // cart_object.products.push({product_id, name, quantity, price})
-
                     let cart_string = JSON.stringify(cart_object)
 
                     cart.update({product: cart_string})
@@ -52,7 +40,9 @@ module.exports = {
                                 "message": "updated",
                                 "cart": cart
                             })
-                        }).catch(error => {return res.status(400).json({"error": error})})
+                        }).catch(error => {
+                        return res.status(400).json({"error": error})
+                    })
                 }// if
 
                 else {
@@ -64,16 +54,24 @@ module.exports = {
 
                     let cart_str_obj = JSON.stringify(carts)
 
-                    Cart.create({user_id: user_id, product: cart_str_obj})
-                        .then(new_cart => {
-                            return res.status(400).json({
-                                "message": "created",
-                                "cart": new_cart
-                            })
-                        }).catch(error => {return res.status(400).json({"error": error})})
+                    if (quantity < 1) {
+                        return res.status(200).json({"message": "quantity is: 0"})
+                    } else {
+                        Cart.create({user_id: user_id, product: cart_str_obj})
+                            .then(new_cart => {
+                                return res.status(400).json({
+                                    "message": "created",
+                                    "cart": new_cart
+                                })
+                            }).catch(error => {
+                            return res.status(400).json({"error": error})
+                        })
+                    }
+
                 }// else
 
-            }).catch(error => {return res.status(400).json({"error": error})
+            }).catch(error => {
+            return res.status(400).json({"error": error})
         })
     },// addToCart
 
@@ -120,9 +118,75 @@ module.exports = {
                 return res.status(200).json({
                     "message": `${id} deleted`
                 })
-            }).catch(error => {return res.status(400).json({"error": error})
+            }).catch(error => {
+            return res.status(400).json({"error": error})
         })
-    }// cartDelete
+    },// cartDelete
+
+
+    /* testing */
+    /* router.post('/cart-test', cartController.testCart) */
+    testCart: async (req, res) => {
+        let {product_id, name, quantity, price} = req.body
+        let cart_id_header = req.headers['cart_id']
+
+        /* conversion */
+        let carts = {}
+        let products = []
+
+        // object to string
+        // products.push({product_id, name, quantity, price})
+        // carts.products = products
+        // let string_cart = JSON.stringify(carts)
+
+        // string to object
+        // let object_cart = JSON.parse(cart.product)
+        // let produ
+        // cts = object_cart.products
+        // console.log('149', object_cart)
+
+        if (cart_id_header) {
+            console.log('153', cart_id_header)
+
+            let obj = await Cart.findOne({where: {id: cart_id_header}})
+            console.log('156', typeof obj.product, obj.product)
+
+            // parsing
+            let parsed_object = JSON.parse(obj.product)
+            let products = parsed_object.products
+            console.log('160', typeof products, products)
+
+            // let products = cart_object.products
+
+            // object to string
+            // products.push(obj.product.product_id, obj.product.name, obj.product.quantity, obj.product.price)
+            // carts.products = products
+            // console.log('161', carts.products)
+
+            // let string_cart = JSON.stringify(carts)
+            // console.log('164', string_cart)
+            //
+            let cart = await Cart.update({product: products})
+            console.log('174', cart)
+
+
+            return res.status(200).json({
+                "message": "cart updated",
+                "cart_id": cart.id,
+                "cart_data": cart.product
+            })
+
+        } else {
+            let cart = await Cart.create({product: string_cart})
+            console.log('169', {cart})
+            return res.status(201).json({
+                "message": "created",
+                "cart_id": cart.id,
+                "cart_data": cart.product
+            })
+        }
+
+    }// testCart
 
 
 }// main

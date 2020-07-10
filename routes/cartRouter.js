@@ -15,6 +15,10 @@ router.get('/cart', auth_middleware.Auth, cartController.cartGet)
 router.get('/cart/:id', auth_middleware.Auth, cartController.cartGet)
 router.delete('/cart/:id', auth_middleware.Auth, cartController.cartDelete)
 
+// testing
+router.post('/cart-test', cartController.testCart)
+
+
 
 /* exporting routes */
 module.exports = router
