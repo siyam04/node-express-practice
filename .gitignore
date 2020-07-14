@@ -5,6 +5,8 @@
 logs
 *.log
 npm-debug.log*
+.DS_Store
+/*.env
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
