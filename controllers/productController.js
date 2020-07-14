@@ -88,35 +88,6 @@ module.exports = {
     },
 
 
-    /* router.delete('/product/:id', productController.deleteProduct) */
-    // deleteProduct: (req, res) => {
-    //     let id = req.params.id
-    //
-    //     try {
-    //         Products.destroy({where: {id: id}})
-    //         res.status(200).json({"message": `product {${id}} deleted`})
-    //     }
-    //     catch (e) {
-    //         res.json({"error": e})
-    //     }
-    // },
-
-
-    /* router.delete('/product/:id', productController.deleteProduct) */
-    // deleteProduct: (req, res) => {
-    //     let id = req.params.id
-    //     Product.destroy({
-    //         where: {
-    //             id: id
-    //         }
-    //     })
-    //         .then(products => {
-    //             return res.status(200).json({
-    //                 id
-    //             })
-    //         })
-    // }
-
     deleteProduct: (req, res) => {
         const id = req.params.id
 
