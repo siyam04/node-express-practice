@@ -11,7 +11,7 @@ const cartRoute = require('./routes/cartRouter')
 
 /*====================================SYSTEM INTEGRATION=============================*/
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 
 /*====================================USE PACKAGES===================================*/
 app.use(bodyParser.json())
