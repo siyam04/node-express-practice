@@ -5,6 +5,7 @@ const Cart = require('./../models').Cart
 /* Controllers */
 module.exports = {
 
+    /* add, update combined */
     /* router.post('/cart', cartController.addToCart) */
     addToCart: (req, res) => {
         let {product_id, name, quantity, price} = req.body
@@ -66,7 +67,7 @@ module.exports = {
                             }).catch(error => {
                             return res.status(400).json({"error": error})
                         })
-                    }
+                    }// else
 
                 }// else
 
@@ -121,73 +122,7 @@ module.exports = {
             }).catch(error => {
             return res.status(400).json({"error": error})
         })
-    },// cartDelete
-
-
-    /* testing */
-    /* router.post('/cart-test', cartController.testCart) */
-    testCart: async (req, res) => {
-        let {product_id, name, quantity, price} = req.body
-        let cart_id_header = req.headers['cart_id']
-
-        /* conversion */
-        let carts = {}
-        let products = []
-
-        // object to string
-        // products.push({product_id, name, quantity, price})
-        // carts.products = products
-        // let string_cart = JSON.stringify(carts)
-
-        // string to object
-        // let object_cart = JSON.parse(cart.product)
-        // let produ
-        // cts = object_cart.products
-        // console.log('149', object_cart)
-
-        if (cart_id_header) {
-            console.log('153', cart_id_header)
-
-            let obj = await Cart.findOne({where: {id: cart_id_header}})
-            console.log('156', typeof obj.product, obj.product)
-
-            // parsing
-            let parsed_object = JSON.parse(obj.product)
-            let products = parsed_object.products
-            console.log('160', typeof products, products)
-
-            // let products = cart_object.products
-
-            // object to string
-            // products.push(obj.product.product_id, obj.product.name, obj.product.quantity, obj.product.price)
-            // carts.products = products
-            // console.log('161', carts.products)
-
-            // let string_cart = JSON.stringify(carts)
-            // console.log('164', string_cart)
-            //
-            let cart = await Cart.update({product: products})
-            console.log('174', cart)
-
-
-            return res.status(200).json({
-                "message": "cart updated",
-                "cart_id": cart.id,
-                "cart_data": cart.product
-            })
-
-        } else {
-            let cart = await Cart.create({product: string_cart})
-            console.log('169', {cart})
-            return res.status(201).json({
-                "message": "created",
-                "cart_id": cart.id,
-                "cart_data": cart.product
-            })
-        }
-
-    }// testCart
-
+    }// cartDelete
 
 }// main
 
