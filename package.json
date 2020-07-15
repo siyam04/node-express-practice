@@ -36,5 +36,6 @@
   "engines": {
     "node": "12.16.1",
     "npm": "6.14.6"
-  }
+  },
+  "heroku-postbuild": "npm install --production"
 }
