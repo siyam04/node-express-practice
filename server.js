@@ -8,7 +8,6 @@ const authRoute = require('./routes/authRouter')
 const productRoute = require('./routes/productRouter')
 const cartRoute = require('./routes/cartRouter')
 
-
 /*====================================SYSTEM INTEGRATION=============================*/
 const app = express()
 const PORT = process.env.PORT || 5001
