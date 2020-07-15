@@ -16,7 +16,13 @@ const PORT = process.env.PORT || 5001
 app.use(bodyParser.json())
 
 /*====================================USE CUSTOM ROUTERS=============================*/
-app.get('/', (req, res) => res.send('Home')) // home
+// template config
+app.set("view engine", "ejs")
+
+// home route
+app.get("/", (req, res) => res.render("home"));
+
+// other routes
 app.use('/api', authRoute);
 app.use('/api', productRoute);
 app.use('/api', cartRoute);

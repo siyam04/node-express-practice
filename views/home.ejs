@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>APIs</title>
+</head>
+
+<body>
+    <h1>Backend API List</h1>
+    <hr>
+
+    <p>1. Registration (POST): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/register</a></p>
+    <pre>
+        Api Body:
+            {
+                "username": "demo_user",
+                "password": "demo12345",
+                "email": "demo@email.com",
+                "first_name": "Demo",
+                "last_name": "User"
+            }
+    </pre>
+    <hr>
+
+    <p>2. Login (POST): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/login</a></p>
+    <pre>
+        Api Body:
+            {
+                "email": "demo@email.com",
+                "password": "demo12345"
+            }
+    </pre>
+    <hr>
+
+    <p>3. Create Product (POST): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/product</a></p>
+    <pre>
+        Api Body:
+            {
+                "name": "Laptop",
+                "category": "Electronics",
+                "price": 50000,
+                "quantity": 10
+            }
+    </pre>
+    <hr>
+
+    <p>4. Product List (GET):
+        <a href="https://nodejs-backend-apis.herokuapp.com/api/product"
+           target="_blank">
+            https://nodejs-backend-apis.herokuapp.com/api/product
+        </a>
+    </p>
+    <hr>
+
+    <p>5. Product Details (GET):
+        <a href="https://nodejs-backend-apis.herokuapp.com/api/product/1" target="_blank">
+            https://nodejs-backend-apis.herokuapp.com/api/product/1
+        </a>
+    </p>
+    <hr>
+
+    <p>6. Edit Product (PUT): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/product/1</a></p>
+    <hr>
+
+    <p>7. Delete Product (DELETE): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/product/1</a></p>
+    <pre>
+        Api Header Token (Authorization):
+            {
+                "authorization": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJuZXciLCJwYXN
+                                          zd29yZCI6IiQyYiQxMCR5YXlVOFc0dWRaZDlFMndTci5CcGp1ZFozLzBDNzYxWXFPWXVlS1N6LzZC
+                                          d2Q0MDk4VDZWeSIsImVtYWlsIjoibmV3QGVtYWlsLmNvbSIsImZpcnN0TmFtZSI6bnVsbCwibGF
+                                          zdE5hbWUiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMzBUMTE6MjA6MzIuMDAwWiIsInVwZGF
+                                          0ZWRBdCI6IjIwMjAtMDYtMzBUMTE6MjA6MzIuMDAwWiIsImlhdCI6MTU5MzUxODQ0MX0.daB7RIE5K
+                                          tbOn2kl7X9hS75WfmSw10WlUb0wXLZ24G0"
+            }
+    </pre>
+    <hr>
+
+    <p>8. Create & Update Cart (POST): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/cart</a></p>
+    <pre>
+        Api Body:
+            {
+                "product_id": 1,
+                "name": "Sunglass",
+                "quantity": 2,
+                "price": 500
+            }
+    </pre>
+    <hr>
+
+    <p>9. Cart List (GET):
+        <a href="https://nodejs-backend-apis.herokuapp.com/api/cart"
+           target="_blank">
+            https://nodejs-backend-apis.herokuapp.com/api/cart
+        </a>
+    </p>
+    <hr>
+
+    <p>10. Cart Details (GET):
+        <a href="https://nodejs-backend-apis.herokuapp.com/api/cart/1" target="_blank">
+            https://nodejs-backend-apis.herokuapp.com/api/cart/1
+        </a>
+    </p>
+    <hr>
+
+    <p>11. Edit Cart (PUT): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/cart/1</a></p>
+    <hr>
+
+    <p>12. Delete Cart (DELETE): <a href="#">https://nodejs-backend-apis.herokuapp.com/api/cart/1</a></p>
+    <pre>
+        Api Header Token (Authorization):
+            {
+                "authorization": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJuZXciLCJwYXN
+                                          zd29yZCI6IiQyYiQxMCR5YXlVOFc0dWRaZDlFMndTci5CcGp1ZFozLzBDNzYxWXFPWXVlS1N6LzZC
+                                          d2Q0MDk4VDZWeSIsImVtYWlsIjoibmV3QGVtYWlsLmNvbSIsImZpcnN0TmFtZSI6bnVsbCwibGF
+                                          zdE5hbWUiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjAtMDYtMzBUMTE6MjA6MzIuMDAwWiIsInVwZGF
+                                          0ZWRBdCI6IjIwMjAtMDYtMzBUMTE6MjA6MzIuMDAwWiIsImlhdCI6MTU5MzUxODQ0MX0.daB7RIE5K
+                                          tbOn2kl7X9hS75WfmSw10WlUb0wXLZ24G0"
+            }
+    </pre>
+    <hr>
+
+</body>
+</html>
+
