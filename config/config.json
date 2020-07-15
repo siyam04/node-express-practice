@@ -16,10 +16,12 @@
     "operatorsAliases": 0
   },
   "production": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "cart_demo",
-    "host": "127.0.0.1",
+    "username": "tthpiageojlkwd",
+    "password": "cdeaeccefe0f4cbddbb40b64664375723978d7a8a6417683fc39cfa29848cc30",
+    "sslmode": "require",
+    "database": "d7io7gcdio8i7",
+    "host": "ec2-3-215-83-17.compute-1.amazonaws.com",
+    "port": 5432,
     "dialect": "postgres",
     "operatorsAliases": 0
   }
