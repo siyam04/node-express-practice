@@ -10,9 +10,9 @@ const auth_middleware = require('../middlewares/auth')
 
 
 /* routes */
-router.post('/product', productController.product)
-// router.get('/product', auth_middleware.Auth, productController.product)
-router.get('/product/:id', productController.product)
+router.post('/product', auth_middleware.Auth, productController.product)
+router.get('/product', auth_middleware.Auth, productController.product)
+router.get('/product/:id', auth_middleware.Auth, productController.product)
 router.put('/product/:id', auth_middleware.Auth, productController.updateProduct) // Auth = Middleware
 router.delete('/product/:id', auth_middleware.Auth, productController.deleteProduct)
 
