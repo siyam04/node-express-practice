@@ -12,7 +12,7 @@ module.exports = {
     /* router.post('/register', authController.register) (POST) */
     register: (req, res) => {
         // api data
-        let {username, password, email, first_name, last_name} = req.body
+        let {username, password, email, firstName, lastName} = req.body
 
         // synchronous hashing
         let hash = bcrypt.hashSync(password, 10);
@@ -24,7 +24,7 @@ module.exports = {
                     User.findOne({where: {email: email}})
                         .then(user => {
                             if (!user) {
-                                User.create({username, password: hash, email, first_name, last_name})
+                                User.create({username, password: hash, email, firstName, lastName})
                                     .then(user => {
                                         return res.status(201).json({
                                             "data": {
