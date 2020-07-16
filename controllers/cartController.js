@@ -81,7 +81,7 @@ module.exports = {
     router.get('/cart/:id', cartController.cartGet)
     router.get('/cart', cartController.cartGet)
     */
-    cartGet: async (req, res) => {
+    cartGet: (req, res) => {
         /* GET */
         if (req.method === "GET") {
 
