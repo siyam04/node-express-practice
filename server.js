@@ -2,6 +2,7 @@
 // importing packages
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 // importing custom authRouters
 const authRoute = require('./routes/authRouter')
@@ -14,15 +15,16 @@ const PORT = process.env.PORT || 5001
 
 /*====================================USE PACKAGES===================================*/
 app.use(bodyParser.json())
+app.use(cors())
 
 /*====================================USE CUSTOM ROUTERS=============================*/
 // template config
 app.set("view engine", "ejs")
 
-// home route
+// home route with template
 app.get("/", (req, res) => res.render("home"));
 
-// other routes
+// other api routes
 app.use('/api', authRoute);
 app.use('/api', productRoute);
 app.use('/api', cartRoute);
