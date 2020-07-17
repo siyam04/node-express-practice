@@ -20,9 +20,12 @@ module.exports = {
 
                     for (i = 0; i < products.length; i++) {
                         if (products[i].product_id === product_id) {
+                            console.log('23', typeof quantity, products[i])
                             if (quantity < 1) {
+                                console.log('25', products)
+                                products[i] = {}
                                 products.splice(i, 1)
-                                return res.status(200).json({"message": "quantity is: 0"})
+                                return res.status(200).json({products})
                             }
                             products[i].name = name
                             products[i].quantity = quantity
