@@ -2,7 +2,7 @@
 
 const faker = require('faker');
 
-const users = [...Array(5)].map((user) => (
+const users = [...Array(10)].map((user) => (
     {
       username: faker.internet.userName(),
       password: faker.internet.password(),

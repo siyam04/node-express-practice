@@ -2,12 +2,13 @@
 
 const faker = require('faker');
 
-const products = [...Array(5)].map((product) => (
+const products = [...Array(100)].map((product) => (
     {
       name: faker.commerce.productName(),
       category: faker.commerce.department(),
       price: faker.commerce.price(),
       quantity: faker.random.number(),
+      description: faker.lorem.sentences(),
       createdAt: new Date(),
       updatedAt: new Date()
     }

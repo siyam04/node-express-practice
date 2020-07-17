@@ -2,7 +2,7 @@
 
 const faker = require('faker');
 
-const carts = [...Array(2)].map((cart) => (
+const carts = [...Array(10)].map((cart) => (
     {
         user_id: faker.random.number(),
         product: faker.commerce.product(),
