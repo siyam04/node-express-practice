@@ -13,8 +13,8 @@ module.exports = {
         /* CREATE */
         if (req.method === "POST") {
             console.log({req})
-            let {name, category, price, quantity} = req.body
-            let product = await Products.create({name, category, price, quantity})
+            let {name, category, price, quantity, description} = req.body
+            let product = await Products.create({name, category, price, quantity, description})
             // let product = Products.create({name, category, price, quantity}).then(p => console.log({p}))
             res.status(201).json({"data": product})
         }
@@ -71,11 +71,11 @@ module.exports = {
     /* router.put('/product/:id', productController.updateProduct) */
     updateProduct: (req, res) => {
         let id = req.params.id
-        let {name, category, price, quantity} = req.body
+        let {name, category, price, quantity, description} = req.body
 
         Products.findOne({where: {id: id}})
             .then(product_obj_arg => {
-                product_obj_arg.update({name, category, price, quantity})
+                product_obj_arg.update({name, category, price, quantity, description})
                     .then(product_obj_arg_2 => {
                         return res.status(201).json({
                             data: product_obj_arg_2
