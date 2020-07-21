@@ -1,6 +1,7 @@
 /* importing custom Models */
 const Products = require('./../models').Products
 
+const {validationResult } = require('express-validator');
 
 /* Controllers */
 module.exports = {
@@ -12,7 +13,12 @@ module.exports = {
     product: async (req, res) => {
         /* CREATE */
         if (req.method === "POST") {
-            console.log({req})
+            // error find out
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+            }//if
+
             let {name, category, price, quantity, description} = req.body
             let product = await Products.create({name, category, price, quantity, description})
             // let product = Products.create({name, category, price, quantity}).then(p => console.log({p}))
@@ -70,6 +76,12 @@ module.exports = {
     /* system-2 */
     /* router.put('/product/:id', productController.updateProduct) */
     updateProduct: (req, res) => {
+        // error find out
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+        }//if
+        
         let id = req.params.id
         let {name, category, price, quantity, description} = req.body
 
