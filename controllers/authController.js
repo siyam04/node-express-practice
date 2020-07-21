@@ -1,30 +1,28 @@
 /* importing packages */
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const {validationResult } = require('express-validator');
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const {validationResult} = require('express-validator')
 
 /* importing custom Models */
 const User = require('./../models').User
 
 /* Controllers */
 module.exports = {
-    
 
     /* router.post('/register', authController.register) (POST) */
     register: (req, res) => {
-        
-
-        // error find out
-        const errors = validationResult(req);
+        // express-validator
+        const errors = validationResult(req)
         if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-        }//if
+            return res.status(422).json({errors: errors.array()})
+        }
+        // express-validator END
 
         // api data
         let {username, password, email, firstName, lastName} = req.body
 
         // synchronous hashing
-        let hash = bcrypt.hashSync(password, 10);
+        let hash = bcrypt.hashSync(password, 10)
 
         // object creation if username, email not exists
         User.findOne({where: {username: username}})
@@ -85,23 +83,24 @@ module.exports = {
         // }
 
         // /* asynchronous hashing */
-        // bcrypt.hash(password, 10, function(err, hash) {});
+        // bcrypt.hash(password, 10, function(err, hash) {})
         //
         // // asynchronous password & hash checking
         // bcrypt.compare(password, hash, function(err, result) {
         //     console.log(result)
-        // });
+        // })
 
     },// register
 
 
     /* router.post('/login', authController.login) (POST) */
     login: (req, res) => {
-        // error find out
-        const errors = validationResult(req);
+        // express-validator
+        const errors = validationResult(req)
         if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-        }//if
+            return res.status(422).json({errors: errors.array()})
+        }
+        // express-validator END
 
         let {email, password} = req.body
 
@@ -154,10 +153,10 @@ module.exports = {
     // logout: (req, res) => {
     //     let token = req.headers['authorization']
 
-        // redis
-        // jwtr.destroy(token)
+    // redis
+    // jwtr.destroy(token)
 
-        // return res.status(200).json({"message": "logout success"})
+    // return res.status(200).json({"message": "logout success"})
 
     // },// logout
 
