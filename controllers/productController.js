@@ -1,6 +1,8 @@
+/* importing packages */
+const {validationResult} = require('express-validator')
+
 /* importing custom Models */
 const Products = require('./../models').Products
-
 
 /* Controllers */
 module.exports = {
@@ -12,7 +14,14 @@ module.exports = {
     product: async (req, res) => {
         /* CREATE */
         if (req.method === "POST") {
-            console.log({req})
+
+            // express-validator
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(422).json({errors: errors.array()})
+            }
+            // express-validator END
+
             let {name, category, price, quantity, description} = req.body
             let product = await Products.create({name, category, price, quantity, description})
             // let product = Products.create({name, category, price, quantity}).then(p => console.log({p}))
@@ -20,13 +29,14 @@ module.exports = {
         }
 
         /* GET */
-        if (req.method === "GET"){
+        if (req.method === "GET") {
 
             /* single product */
-            if (req.params.id){
+            if (req.params.id) {
                 let id = req.params.id
                 /* returns array */
                 // Products.findAll({where: {id: id}}).then(data => {return res.status(200).json({data})})
+
                 /* returns object */
                 Products.findOne({where: {id: id}})
                     .then(data => {
@@ -40,11 +50,11 @@ module.exports = {
             else {
                 Products.findAll({})
                     .then(data => {
-                        return res.status(200).json({
-                            data
-                        })
-                    }
-                )
+                            return res.status(200).json({
+                                data
+                            })
+                        }
+                    )
             }
         }
     },
@@ -70,6 +80,13 @@ module.exports = {
     /* system-2 */
     /* router.put('/product/:id', productController.updateProduct) */
     updateProduct: (req, res) => {
+        // express-validator
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array()})
+        }
+        // express-validator END
+
         let id = req.params.id
         let {name, category, price, quantity, description} = req.body
 
@@ -80,9 +97,11 @@ module.exports = {
                         return res.status(201).json({
                             data: product_obj_arg_2
                         })
-                    }).catch(error_inner_then => {return res.status(204).json({error_inner_then})
+                    }).catch(error_inner_then => {
+                    return res.status(204).json({error_inner_then})
                 })
-            }).catch(error_outer_then => {return res.status(204).json({error_outer_then})
+            }).catch(error_outer_then => {
+            return res.status(204).json({error_outer_then})
         })
 
     },
@@ -96,7 +115,8 @@ module.exports = {
                 return res.status(200).json({
                     "message": `${id} deleted`
                 })
-            }).catch(error => {return res.status(400).json({"error": error})
+            }).catch(error => {
+            return res.status(400).json({"error": error})
         })
     }// deleteProduct
 }

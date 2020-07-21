@@ -1,5 +1,6 @@
 /* importing express */
 const express = require('express')
+const {body} = require('express-validator')
 
 /* creating router */
 const router = express.Router()
@@ -10,11 +11,30 @@ const auth_middleware = require('../middlewares/auth')
 
 
 /* routes */
-router.post('/product', productController.product)
+// express-validator added
+router.post('/product', [
+    body('name').isString(),
+    body('category').isString(),
+    body('price').isFloat(),
+    body('quantity').isNumeric(),
+    body('description').isString()
+], productController.product)
+
 router.get('/product', productController.product)
+
 router.get('/product/:id', productController.product)
-router.put('/product/:id', productController.updateProduct)
+
+// express-validator added
+router.put('/product/:id', [
+    body('name').isString(),
+    body('category').isString(),
+    body('price').isFloat(),
+    body('quantity').isNumeric(),
+    body('description').isString()
+], productController.updateProduct)
+
 router.delete('/product/:id', auth_middleware.Auth, productController.deleteProduct)
+
 
 /* exporting routes */
 module.exports = router
