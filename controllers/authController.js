@@ -1,16 +1,25 @@
 /* importing packages */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {validationResult } = require('express-validator');
 
 /* importing custom Models */
 const User = require('./../models').User
 
-
 /* Controllers */
 module.exports = {
+    
 
     /* router.post('/register', authController.register) (POST) */
     register: (req, res) => {
+        
+
+        // error find out
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+        }//if
+
         // api data
         let {username, password, email, firstName, lastName} = req.body
 
@@ -88,6 +97,12 @@ module.exports = {
 
     /* router.post('/login', authController.login) (POST) */
     login: (req, res) => {
+        // error find out
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+        }//if
+
         let {email, password} = req.body
 
         User.findOne({where: {email: email}})
