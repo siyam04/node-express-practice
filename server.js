@@ -1,5 +1,4 @@
 /*====================================IMPORTING=============================*/
-// importing packages
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -23,7 +22,7 @@ app.use(cors())
 
 /*====================================USE CUSTOM ROUTERS=============================*/
 
-/* Multer Config */
+/* Multer Config Start */
 
 // multer directory
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
@@ -54,7 +53,7 @@ app.post('/upload-image', upload.single('image'), (req, res, next) => {
     try {
         return res.status(201).json({
             message: 'image uploaded successfully'
-        });
+        })
     } catch (error) {
         console.error(error);
     }
@@ -62,7 +61,7 @@ app.post('/upload-image', upload.single('image'), (req, res, next) => {
 /* Multer Config END */
 
 
-// template config
+/* template config */
 app.set("view engine", "ejs")
 
 // home route with template
