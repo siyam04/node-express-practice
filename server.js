@@ -18,7 +18,13 @@ const app = express()
 const PORT = process.env.PORT || 5001
 
 /*==================================== USE PACKAGES ===================================*/
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
 app.use(bodyParser.json())
+
+// access-control-allow-origin
 app.use(cors())
 
 /*==================================== TEMPLATE CONFIG =============================*/

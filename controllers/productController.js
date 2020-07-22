@@ -1,5 +1,6 @@
 /*==================================== IMPORTING =============================*/
 // packages
+const fs = require('fs')
 const {validationResult} = require('express-validator')
 
 // custom models
@@ -12,21 +13,40 @@ module.exports = {
     4. Product List (GET)
     5. Product Details (GET)
     */
-    product: async (req, res) => {
+    product: async (req, res, next) => {
         /* 3 */
         if (req.method === "POST") {
+            try {
+                // express-validator
+                const errors = validationResult(req)
+                if (!errors.isEmpty()) {
+                    return res.status(422).json({errors: errors.array()})
+                }
+                // express-validator END
 
-            // express-validator
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                return res.status(422).json({errors: errors.array()})
+                let {name, category, price, quantity, imageUrl, description} = req.body
+
+                // to declare some path to store my converted image
+                const path = './images/' + Date.now() + '.png'
+
+                // to convert base64 format into random filename
+                const base64Data = imageUrl.replace(/^data:([A-Za-z-+/]+);base64,/, '')
+
+                // decoding
+                fs.writeFileSync(path, base64Data,  {encoding: 'base64'});
+
+                // creating object
+                let product = await Products.create({name, category, price, quantity, imageUrl:path, description})
+
+                // response
+                return res.status(201).json({
+                    "data": product
+                })
+
+            } catch (e) {
+                next(e)
             }
-            // express-validator END
-
-            let {name, category, price, quantity, imageUrl, description} = req.body
-            let product = await Products.create({name, category, price, quantity, imageUrl, description})
-            res.status(201).json({"data": product})
-        }
+        }// if
 
         if (req.method === "GET") {
             /* 4 */
@@ -54,8 +74,8 @@ module.exports = {
                         }
                     )
             }
-        }
-    },
+        }// if
+    },// product
 
 
     /* async await */
@@ -103,7 +123,7 @@ module.exports = {
             return res.status(204).json({error_outer_then})
         })
 
-    },
+    }, // updateProduct
 
 
     /* 7. Delete Product (DELETE) */
