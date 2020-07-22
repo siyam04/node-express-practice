@@ -12,10 +12,10 @@ const authController = require('../controllers/authController')
 /* routes */
 // express-validator added
 router.post('/register', [body('username').isString(),
-    body('password').isLength({min: 8}),
-    body('email').isEmail(),
-    body('firstName').isString(),
-    body('firstName').isString()
+    body('password').isLength({min: 8}).withMessage('must be at least 8 chars long'),
+    body('email').isEmail().withMessage('Must be a valid email address'),
+    body('firstName').isString().withMessage('Frist name will be string'),
+    body('lastName').isString().withMessage('Last name will be string'),
 ], authController.register)
 
 // express-validator added

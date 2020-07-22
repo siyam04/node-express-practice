@@ -1,7 +1,7 @@
 /* importing packages */
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {validationResult} = require('express-validator')
+const { validationResult } = require('express-validator')
 
 /* importing custom Models */
 const User = require('./../models').User
@@ -13,25 +13,36 @@ module.exports = {
     register: (req, res) => {
         // express-validator
         const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array()})
+            let error_list = {}
+            //for each {errors: errors.errors[0].msg}
+            errors.errors.forEach(error => {
+                // console.log(error)
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({ "errors": error_list })
         }
+
         // express-validator END
 
         // api data
-        let {username, password, email, firstName, lastName} = req.body
+        let { username, password, email, firstName, lastName } = req.body
 
         // synchronous hashing
         let hash = bcrypt.hashSync(password, 10)
 
         // object creation if username, email not exists
-        User.findOne({where: {username: username}})
+        User.findOne({ where: { username: username } })
             .then(user => {
                 if (!user) {
-                    User.findOne({where: {email: email}})
+                    User.findOne({ where: { email: email } })
                         .then(user => {
                             if (!user) {
-                                User.create({username, password: hash, email, firstName, lastName})
+                                User.create({ username, password: hash, email, firstName, lastName })
                                     .then(user => {
                                         return res.status(201).json({
                                             "data": {
@@ -41,8 +52,8 @@ module.exports = {
                                             }
                                         })
                                     }).catch(error => {
-                                    return res.status(400).json({error})
-                                })
+                                        return res.status(400).json({ error })
+                                    })
                             }// if.
                             else {
                                 return res.status(200).json({
@@ -53,8 +64,8 @@ module.exports = {
                                 })
                             }// else
                         }).catch(error => {
-                        return res.status(400).json({error})
-                    })
+                            return res.status(400).json({ error })
+                        })
                 }// if
                 else {
                     return res.status(200).json({
@@ -66,14 +77,14 @@ module.exports = {
                 }// else
 
             }).catch(error => {
-            return res.status(400).json({
-                "data": {
-                    "message": "something went wrong",
-                    "type": "error",
-                    "error": error
-                }
+                return res.status(400).json({
+                    "data": {
+                        "message": "something went wrong",
+                        "type": "error",
+                        "error": error
+                    }
+                })
             })
-        })
 
         // synchronous password & hash checking
         // if(bcrypt.compareSync(password, hash)) {
@@ -98,13 +109,13 @@ module.exports = {
         // express-validator
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array()})
+            return res.status(422).json({ errors: errors.array() })
         }
         // express-validator END
 
-        let {email, password} = req.body
+        let { email, password } = req.body
 
-        User.findOne({where: {email: email}})
+        User.findOne({ where: { email: email } })
             .then(user => {
                 if (user) {
                     if (bcrypt.compareSync(password, user.password)) {
@@ -143,8 +154,8 @@ module.exports = {
                 }// else
 
             }).catch(error => {
-            return res.status(400).json({"error": error})
-        })
+                return res.status(400).json({ "error": error })
+            })
 
     },// login
 
