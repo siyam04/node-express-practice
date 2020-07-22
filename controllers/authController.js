@@ -15,8 +15,16 @@ module.exports = {
 
         // express-validator
         const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array()})
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
         }
         // express-validator END
 
@@ -100,8 +108,16 @@ module.exports = {
 
         // express-validator
         const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array()})
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
         }
         // express-validator END
 

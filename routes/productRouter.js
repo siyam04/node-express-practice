@@ -13,11 +13,12 @@ const router = express.Router()
 /*==================================== ROUTES =============================*/
 // 3. Create Product (POST) // express-validator added
 router.post('/product', [
-    body('name').isString(),
-    body('category').isString(),
-    body('price').isFloat(),
-    body('quantity').isNumeric(),
-    body('description').isString()
+    body('name').isString().withMessage('must be string'),
+    body('category').isString().withMessage('must be string'),
+    body('price').isFloat().withMessage('must be float'),
+    body('quantity').isNumeric().withMessage('must be numeric'),
+    body('description').isString().withMessage('must be string'),
+    body('imageUrl').isBase64().withMessage('must be base64')
 ], productController.product)
 
 // 4. Product List (GET)
@@ -28,11 +29,12 @@ router.get('/product/:id', productController.product)
 
 // 6. Edit Product (PUT) // express-validator added
 router.put('/product/:id', [
-    body('name').isString(),
-    body('category').isString(),
-    body('price').isFloat(),
-    body('quantity').isNumeric(),
-    body('description').isString()
+    body('name').isString().withMessage('must be string'),
+    body('category').isString().withMessage('must be string'),
+    body('price').isFloat().withMessage('must be float'),
+    body('quantity').isNumeric().withMessage('must be numeric'),
+    body('description').isString().withMessage('must be string'),
+    body('imageUrl').isBase64().withMessage('must be base64')
 ], productController.updateProduct)
 
 // 7. Delete Product (DELETE)

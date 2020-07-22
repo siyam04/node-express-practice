@@ -19,8 +19,16 @@ module.exports = {
             try {
                 // express-validator
                 const errors = validationResult(req)
+
                 if (!errors.isEmpty()) {
-                    return res.status(422).json({errors: errors.array()})
+                    let error_list = {}
+                    errors.errors.forEach(error => {
+                        error_list[error.param] = {
+                            "value": error.value,
+                            "msg": error.msg
+                        }
+                    })
+                    return res.status(422).json({"errors": error_list})
                 }
                 // express-validator END
 
@@ -33,13 +41,16 @@ module.exports = {
                 const base64Data = imageUrl.replace(/^data:([A-Za-z-+/]+);base64,/, '')
 
                 // decoding
-                fs.writeFileSync(path, base64Data,  {encoding: 'base64'})
+                fs.writeFileSync(path, base64Data, {encoding: 'base64'})
+
+                // generating server paths for image
+                let localServerPath = req.protocol + '://' + req.get('host') + '/' + path
+                let herokuServerPath = 'https://nodejs-backend-apis.herokuapp.com/' + path
 
                 // creating object
-                let product = await Products.create({name, category, price, quantity, imageUrl:path, description})
-
-                // generating server path for image
-                product.imageUrl = req.protocol + '://' + req.get('host') + '/' + product.imageUrl
+                let product = await Products.create({
+                    name, category, price, quantity, imageUrl: herokuServerPath, description
+                })
 
                 // response
                 return res.status(201).json({
@@ -107,8 +118,16 @@ module.exports = {
 
         // express-validator
         const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array()})
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
         }
         // express-validator END
 
