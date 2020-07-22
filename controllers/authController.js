@@ -1,16 +1,18 @@
-/* importing packages */
+/*==================================== IMPORTING =============================*/
+// packages
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {validationResult} = require('express-validator')
 
-/* importing custom Models */
+// custom models
 const User = require('./../models').User
 
-/* Controllers */
+/*==================================== CONTROLLERS =============================*/
 module.exports = {
 
-    /* router.post('/register', authController.register) (POST) */
+    /* 1. Registration (POST) // express-validator added */
     register: (req, res) => {
+
         // express-validator
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -93,8 +95,9 @@ module.exports = {
     },// register
 
 
-    /* router.post('/login', authController.login) (POST) */
+    /* 2. Login (POST) // express-validator added */
     login: (req, res) => {
+
         // express-validator
         const errors = validationResult(req)
         if (!errors.isEmpty()) {

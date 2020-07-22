@@ -1,13 +1,12 @@
-/* importing custom Models */
+/*==================================== IMPORTING =============================*/
+// custom models
 const Cart = require('./../models').Cart
 
-
-/* Controllers */
+/*==================================== CONTROLLERS =============================*/
 module.exports = {
 
-    /* add, update combined */
-    /* router.post('/cart', cartController.addToCart) */
-    addToCart: (req, res) => {
+    /* 8. Cart Create and Update (POST) */
+    cartCreateUpdate: (req, res) => {
         let {product_id, name, quantity, price} = req.body
         let {id} = req.user
         let user_id = id
@@ -81,14 +80,12 @@ module.exports = {
 
 
     /*
-    router.get('/cart/:id', cartController.cartGet)
-    router.get('/cart', cartController.cartGet)
+    9. Cart List (GET)
+    10. Cart Details (GET)
     */
     cartGet: (req, res) => {
-        /* GET */
         if (req.method === "GET") {
-
-            /* single cart */
+            /* 9 */
             if (req.params.id) {
                 let id = req.params.id
                 Cart.findOne({where: {id: id}})
@@ -99,7 +96,7 @@ module.exports = {
                     })
             }// if
 
-            /* all cart */
+            /* 10 */
             else {
                 Cart.findAll({})
                     .then(data => {
@@ -113,7 +110,7 @@ module.exports = {
     },// cartGet
 
 
-    /* router.delete('/cart/:id', cartController.cartDelete) */
+    /* 11. Cart Delete (DELETE) */
     cartDelete: (req, res) => {
         const id = req.params.id
 
