@@ -84,8 +84,9 @@ module.exports = {
     10. Cart Details (GET)
     */
     cartGet: (req, res) => {
+        /* 9 */
+        /* 10 */
         if (req.method === "GET") {
-            /* 9 */
             if (req.params.id) {
                 let id = req.params.id
                 Cart.findOne({where: {id: id}})

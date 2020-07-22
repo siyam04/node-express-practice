@@ -27,16 +27,19 @@ module.exports = {
                 let {name, category, price, quantity, imageUrl, description} = req.body
 
                 // to declare some path to store my converted image
-                const path = './images/' + Date.now() + '.png'
+                const path = 'images/' + Date.now() + '.png'
 
                 // to convert base64 format into random filename
                 const base64Data = imageUrl.replace(/^data:([A-Za-z-+/]+);base64,/, '')
 
                 // decoding
-                fs.writeFileSync(path, base64Data,  {encoding: 'base64'});
+                fs.writeFileSync(path, base64Data,  {encoding: 'base64'})
 
                 // creating object
                 let product = await Products.create({name, category, price, quantity, imageUrl:path, description})
+
+                // generating server path for image
+                product.imageUrl = req.protocol + '://' + req.get('host') + '/' + product.imageUrl
 
                 // response
                 return res.status(201).json({
@@ -48,7 +51,10 @@ module.exports = {
             }
         }// if
 
+        /* 4 */
+        /* 5 */
         if (req.method === "GET") {
+
             /* 4 */
             if (req.params.id) {
                 let id = req.params.id
@@ -139,6 +145,7 @@ module.exports = {
             return res.status(400).json({"error": error})
         })
     }// deleteProduct
-}
+
+}// main
 
 

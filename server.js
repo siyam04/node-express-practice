@@ -27,6 +27,10 @@ app.use(bodyParser.json())
 // access-control-allow-origin
 app.use(cors())
 
+/*==================================== IMAGE DIR CONFIG =============================*/
+// route for static path of images directory
+app.use('/images', express.static(__dirname + '/images'))
+
 /*==================================== TEMPLATE CONFIG =============================*/
 app.set("view engine", "ejs")
 
