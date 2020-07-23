@@ -1,42 +1,34 @@
-/* importing express */
+/*==================================== IMPORTING =============================*/
+// packages
 const express = require('express')
-const {body} = require('express-validator')
 
-/* creating router */
-const router = express.Router()
-
-/* importing controllers */
+// custom controllers
 const productController = require('../controllers/productController')
 const auth_middleware = require('../middlewares/auth')
 
+// custom validators
+const productValidation = require('../validators/productValidation')
 
-/* routes */
-// express-validator added
-router.post('/product', [
-    body('name').isString(),
-    body('category').isString(),
-    body('price').isFloat(),
-    body('quantity').isNumeric(),
-    body('description').isString()
-], productController.product)
+/*==================================== CREATING ROUTER =============================*/
+const router = express.Router()
 
+/*==================================== ROUTES =============================*/
+// 3. Create Product (POST) // express-validator added
+router.route('/product').post(productValidation.createProductValidation, productController.product)
+
+// 4. Product List (GET)
 router.get('/product', productController.product)
 
+// 5. Product Details (GET)
 router.get('/product/:id', productController.product)
 
-// express-validator added
-router.put('/product/:id', [
-    body('name').isString(),
-    body('category').isString(),
-    body('price').isFloat(),
-    body('quantity').isNumeric(),
-    body('description').isString()
-], productController.updateProduct)
+// 6. Edit Product (PUT) // express-validator added
+router.route('/product/:id').put(productValidation.editProductValidation, productController.updateProduct)
 
+// 7. Delete Product (DELETE)
 router.delete('/product/:id', auth_middleware.Auth, productController.deleteProduct)
 
-
-/* exporting routes */
+/*==================================== EXPORTING ROUTES =============================*/
 module.exports = router
 
 

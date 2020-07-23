@@ -1,67 +1,104 @@
-/* importing packages */
+/*==================================== IMPORTING =============================*/
+// packages
+const fs = require('fs')
 const {validationResult} = require('express-validator')
 
-/* importing custom Models */
+// custom models
 const Products = require('./../models').Products
 
-/* Controllers */
+/*==================================== CONTROLLERS =============================*/
 module.exports = {
     /*
-    router.post('/product', productController.product) (POST)
-    router.get('/product', productController.product) (GET)
-    router.get('/product/:id', productController.product) (GET)
+    3. Create Product (POST) // express-validator added
+    4. Product List (GET)
+    5. Product Details (GET)
     */
-    product: async (req, res) => {
-        /* CREATE */
+    product: async (req, res, next) => {
+        /* 3 */
         if (req.method === "POST") {
+            try {
+                // express-validator
+                const errors = validationResult(req)
 
-            // express-validator
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                return res.status(422).json({errors: errors.array()})
+                if (!errors.isEmpty()) {
+                    let error_list = {}
+                    errors.errors.forEach(error => {
+                        error_list[error.param] = {
+                            "value": error.value,
+                            "msg": error.msg
+                        }
+                    })
+                    return res.status(422).json({"errors": error_list})
+                }
+                // express-validator END
+
+                let {name, category, price, quantity, imageUrl, description} = req.body
+
+                // to declare some path to store my converted image
+                const path = 'images/' + Date.now() + '.png'
+
+                // to convert base64 format into random filename
+                const base64Data = imageUrl.replace(/^data:([A-Za-z-+/]+);base64,/, '')
+
+                // decoding
+                fs.writeFileSync(path, base64Data, {encoding: 'base64'})
+
+                // creating object
+                let product = await Products.create({
+                    name, category, price, quantity, imageUrl: path, description
+                })
+
+                // generating server path for image
+                product.imageUrl = req.protocol + '://' + req.get('host') + '/' + product.imageUrl
+
+                // response
+                return res.status(201).json({
+                    "data": product
+                })
+
+            } catch (e) {
+                next(e)
             }
-            // express-validator END
+        }// if
 
-            let {name, category, price, quantity, description} = req.body
-            let product = await Products.create({name, category, price, quantity, description})
-            // let product = Products.create({name, category, price, quantity}).then(p => console.log({p}))
-            res.status(201).json({"data": product})
-        }
-
-        /* GET */
+        /* 4 */
+        /* 5 */
         if (req.method === "GET") {
 
-            /* single product */
+            /* 4 */
             if (req.params.id) {
                 let id = req.params.id
-                /* returns array */
+                // returns array
                 // Products.findAll({where: {id: id}}).then(data => {return res.status(200).json({data})})
 
-                /* returns object */
+                // returns object
                 Products.findOne({where: {id: id}})
                     .then(data => {
+                        data.imageUrl = req.protocol + '://' + req.get('host') + '/' + data.imageUrl
                         return res.status(200).json({
                             data
                         })
                     })
             }
 
-            /* all products */
+            /* 5 */
             else {
                 Products.findAll({})
                     .then(data => {
-                            return res.status(200).json({
-                                data
-                            })
-                        }
-                    )
+                        data.forEach((value, key) => {
+                            data[key].imageUrl = req.protocol + '://' + req.get('host') + '/' + value.imageUrl
+                        })
+                        return res.status(200).json({
+                            data
+                        })
+                    })
             }
-        }
-    },
+        }// if
+    },// product
 
 
-    /* system-1 */
-    // /* router.put('/product/:id', productController.updateProduct) */
+    /* async await */
+    /* 6. Edit Product (PUT) // express-validator added */
     // updateProduct: async (req, res) => {
     //     let id = req.params.id
     //     let {name, category, price, quantity} = req.body
@@ -77,22 +114,31 @@ module.exports = {
     // },
 
 
-    /* system-2 */
-    /* router.put('/product/:id', productController.updateProduct) */
+    /* promise */
+    /* 6. Edit Product (PUT) // express-validator added */
     updateProduct: (req, res) => {
+
         // express-validator
         const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array()})
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
         }
         // express-validator END
 
         let id = req.params.id
-        let {name, category, price, quantity, description} = req.body
+        let {name, category, price, quantity, imageUrl, description} = req.body
 
         Products.findOne({where: {id: id}})
             .then(product_obj_arg => {
-                product_obj_arg.update({name, category, price, quantity, description})
+                product_obj_arg.update({name, category, price, quantity, imageUrl, description})
                     .then(product_obj_arg_2 => {
                         return res.status(201).json({
                             data: product_obj_arg_2
@@ -104,9 +150,10 @@ module.exports = {
             return res.status(204).json({error_outer_then})
         })
 
-    },
+    }, // updateProduct
 
 
+    /* 7. Delete Product (DELETE) */
     deleteProduct: (req, res) => {
         const id = req.params.id
 
@@ -119,6 +166,7 @@ module.exports = {
             return res.status(400).json({"error": error})
         })
     }// deleteProduct
-}
+
+}// main
 
 
