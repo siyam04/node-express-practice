@@ -1,18 +1,24 @@
-// importing express
+/*==================================== IMPORTING =============================*/
+// packages
 const express = require('express')
 
-// creating router
-const router = express.Router()
-
-// importing controllers
+// custom controllers
 const authController = require('../controllers/authController')
 
+// custom validators
+const authValidation = require('../validators/authValidation')
 
-// routes
-router.post('/register', authController.register)
-router.post('/login', authController.login)
+/*==================================== CREATING ROUTER =============================*/
+const router = express.Router()
+
+/*==================================== ROUTES =============================*/
+// 1. Registration (POST) // express-validator added
+router.route('/register').post(authValidation.registrationValidation, authController.register)
+
+// 2. Login (POST) // express-validator added
+router.route('/login').post(authValidation.loginValidation, authController.login)
+
 // router.post('/logout', authController.logout)
 
-// exporting routes
+/*==================================== EXPORTING ROUTES =============================*/
 module.exports = router
-

@@ -1,21 +1,38 @@
-/* importing packages */
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+/*==================================== IMPORTING =============================*/
+// packages
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const {validationResult} = require('express-validator')
 
-/* importing custom Models */
+// custom models
 const User = require('./../models').User
 
-
-/* Controllers */
+/*==================================== CONTROLLERS =============================*/
 module.exports = {
 
-    /* router.post('/register', authController.register) (POST) */
+    /* 1. Registration (POST) // express-validator added */
     register: (req, res) => {
+
+        // express-validator
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
+        }
+        // express-validator END
+
         // api data
         let {username, password, email, firstName, lastName} = req.body
 
         // synchronous hashing
-        let hash = bcrypt.hashSync(password, 10);
+        let hash = bcrypt.hashSync(password, 10)
 
         // object creation if username, email not exists
         User.findOne({where: {username: username}})
@@ -76,18 +93,34 @@ module.exports = {
         // }
 
         // /* asynchronous hashing */
-        // bcrypt.hash(password, 10, function(err, hash) {});
+        // bcrypt.hash(password, 10, function(err, hash) {})
         //
         // // asynchronous password & hash checking
         // bcrypt.compare(password, hash, function(err, result) {
         //     console.log(result)
-        // });
+        // })
 
     },// register
 
 
-    /* router.post('/login', authController.login) (POST) */
+    /* 2. Login (POST) // express-validator added */
     login: (req, res) => {
+
+        // express-validator
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
+        }
+        // express-validator END
+
         let {email, password} = req.body
 
         User.findOne({where: {email: email}})
@@ -139,10 +172,10 @@ module.exports = {
     // logout: (req, res) => {
     //     let token = req.headers['authorization']
 
-        // redis
-        // jwtr.destroy(token)
+    // redis
+    // jwtr.destroy(token)
 
-        // return res.status(200).json({"message": "logout success"})
+    // return res.status(200).json({"message": "logout success"})
 
     // },// logout
 
