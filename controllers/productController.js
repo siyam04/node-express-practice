@@ -43,14 +43,13 @@ module.exports = {
                 // decoding
                 fs.writeFileSync(path, base64Data, {encoding: 'base64'})
 
-                // generating server paths for image
-                let localServerPath = req.protocol + '://' + req.get('host') + '/' + path
-                let herokuServerPath = 'https://nodejs-backend-apis.herokuapp.com/' + path
-
                 // creating object
                 let product = await Products.create({
-                    name, category, price, quantity, imageUrl: herokuServerPath, description
+                    name, category, price, quantity, imageUrl: path, description
                 })
+
+                // generating server path for image
+                product.imageUrl = req.protocol + '://' + req.get('host') + '/' + product.imageUrl
 
                 // response
                 return res.status(201).json({
@@ -75,6 +74,7 @@ module.exports = {
                 // returns object
                 Products.findOne({where: {id: id}})
                     .then(data => {
+                        data.imageUrl = req.protocol + '://' + req.get('host') + '/' + data.imageUrl
                         return res.status(200).json({
                             data
                         })
@@ -85,11 +85,13 @@ module.exports = {
             else {
                 Products.findAll({})
                     .then(data => {
-                            return res.status(200).json({
-                                data
-                            })
-                        }
-                    )
+                        data.forEach((value, key) => {
+                            data[key].imageUrl = req.protocol + '://' + req.get('host') + '/' + value.imageUrl
+                        })
+                        return res.status(200).json({
+                            data
+                        })
+                    })
             }
         }// if
     },// product
