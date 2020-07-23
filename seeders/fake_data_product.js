@@ -8,7 +8,7 @@ const products = [...Array(10)].map((product) => (
         category: faker.commerce.department(),
         price: faker.commerce.price(),
         quantity: faker.random.number(),
-        imageUrl: faker.image.imageUrl(),
+        imageUrl: "image path",
         description: faker.lorem.sentences(),
         createdAt: new Date(),
         updatedAt: new Date()
