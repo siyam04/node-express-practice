@@ -31,7 +31,6 @@ module.exports = {
                     return res.status(422).json({"errors": error_list})
                 }
                 // express-validator END
-
                 let {name, category, price, quantity, imageUrl, description} = req.body
 
                 // to declare some path to store my converted image
