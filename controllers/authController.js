@@ -1,30 +1,29 @@
-/* importing packages */
+/*==================================== IMPORTING =============================*/
+// packages
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
 
-/* importing custom Models */
+// custom models
 const User = require('./../models').User
 
-/* Controllers */
+/*==================================== CONTROLLERS =============================*/
 module.exports = {
 
-    /* router.post('/register', authController.register) (POST) */
+    /* 1. Registration (POST) // express-validator added */
     register: (req, res) => {
+
         // express-validator
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
             let error_list = {}
+
+            errors.errors.forEach(error => {
             //for each {errors: errors.errors[0].msg}
             errors.errors.forEach(error => {
                 // console.log(error)
-                error_list[error.param] = {
-                    "value": error.value,
-                    "msg": error.msg
-                }
-            })
-            return res.status(422).json({ "errors": error_list })
+            return res.status(422).json({"errors": error_list})
         }
 
         // express-validator END
@@ -104,12 +103,22 @@ module.exports = {
     },// register
 
 
-    /* router.post('/login', authController.login) (POST) */
+    /* 2. Login (POST) // express-validator added */
     login: (req, res) => {
+
         // express-validator
         const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() })
+
+            let error_list = {}
+            errors.errors.forEach(error => {
+                error_list[error.param] = {
+                    "value": error.value,
+                    "msg": error.msg
+                }
+            })
+            return res.status(422).json({"errors": error_list})
         }
         // express-validator END
 
