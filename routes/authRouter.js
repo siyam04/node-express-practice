@@ -22,8 +22,3 @@ router.route('/login').post(authValidation.loginValidation, authController.login
 
 /*==================================== EXPORTING ROUTES =============================*/
 module.exports = router
-
-
-
-
-

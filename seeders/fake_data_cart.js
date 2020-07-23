@@ -19,5 +19,3 @@ module.exports = {
         return queryInterface.bulkDelete('Carts', null, {});
     }
 };
-
-
