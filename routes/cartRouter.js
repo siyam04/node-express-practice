@@ -24,9 +24,3 @@ router.delete('/cart/:id', auth_middleware.Auth, cartController.cartDelete)
 
 /*==================================== EXPORTING ROUTES =============================*/
 module.exports = router
-
-
-
-
-
-

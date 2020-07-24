@@ -135,10 +135,24 @@ module.exports = {
         let id = req.params.id
         let {name, category, price, quantity, imageUrl, description} = req.body
 
+        // to declare some path to store my converted image
+        const path = 'images/' + Date.now() + '.png'
+
+        // to convert base64 format into random filename
+        const base64Data = imageUrl.replace(/^data:([A-Za-z-+/]+);base64,/, '')
+
+        // decoding
+        fs.writeFileSync(path, base64Data, {encoding: 'base64'})
+
         Products.findOne({where: {id: id}})
             .then(product_obj_arg => {
-                product_obj_arg.update({name, category, price, quantity, imageUrl, description})
+                product_obj_arg.update({name, category, price, quantity, imageUrl: path, description})
+
                     .then(product_obj_arg_2 => {
+
+                        // generating server path for image
+                        product_obj_arg_2.imageUrl = req.protocol + '://' + req.get('host') + '/' + product_obj_arg_2.imageUrl
+
                         return res.status(201).json({
                             data: product_obj_arg_2
                         })
@@ -167,5 +181,3 @@ module.exports = {
     }// deleteProduct
 
 }// main
-
-

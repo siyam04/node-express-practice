@@ -30,5 +30,3 @@ router.delete('/product/:id', auth_middleware.Auth, productController.deleteProd
 
 /*==================================== EXPORTING ROUTES =============================*/
 module.exports = router
-
-

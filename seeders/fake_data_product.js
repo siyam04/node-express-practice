@@ -8,7 +8,7 @@ const products = [...Array(10)].map((product) => (
         category: faker.commerce.department(),
         price: faker.commerce.price(),
         quantity: faker.random.number(),
-        imageUrl: "image path",
+        imageUrl: "image-path",
         description: faker.lorem.sentences(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -23,5 +23,3 @@ module.exports = {
         return queryInterface.bulkDelete('Products', null, {});
     }
 };
-
-

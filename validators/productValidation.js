@@ -22,6 +22,3 @@ exports.editProductValidation = [
     body('description').isString().withMessage('must be string'),
     body('imageUrl').isBase64().withMessage('must be base64')
 ]
-
-
-
