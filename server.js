@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const authRoute = require('./routes/authRouter')
 const cartRoute = require('./routes/cartRouter')
 const productRoute = require('./routes/productRouter')
+const categoryRoute = require('./routes/categoryRouter')
 
 /*==================================== SYSTEM INTEGRATION =============================*/
 const app = express()
@@ -35,6 +36,7 @@ app.use("/images", express.static(__dirname + "/images"))
 app.use("/api", authRoute)
 app.use("/api", cartRoute)
 app.use("/api", productRoute)
+app.use("/api", categoryRoute)
 
 // home route with template
 app.get("/", (req, res) => res.render("home"))
