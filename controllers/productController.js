@@ -83,17 +83,22 @@ module.exports = {
 
             /* 5 */
             else {
-                Products.findAll({})
+                let query = {}
+
+                Object.entries(req.query).forEach(entry => {
+                    const [key, value] = entry
+                    if (value) query[key] = value
+                })
+
+                Products.findAll({where: query})
                     .then(data => {
                         data.forEach((value, key) => {
                             data[key].imageUrl = req.protocol + '://' + req.get('host') + '/' + value.imageUrl
                         })
-                        return res.status(200).json({
-                            data
-                        })
+                        return res.status(200).json({data})
                     })
-            }
-        }// if
+            }// outer else
+        }// outer if
     },// product
 
 
